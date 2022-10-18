@@ -1,10 +1,12 @@
+import { PlayersData } from "./PlayersData";
+
 export const PlayerRoles = {
   batsman: {
     value: "Batsman",
     minPlayers: 3,
     maxPlayers: 7,
     name: "Batsman",
-    stateKey: "batsman",
+    stateKey: "batsmans",
   },
   wicketKeeper: {
     value: "Wicket-Keeper",
@@ -28,4 +30,26 @@ export const PlayerRoles = {
     name: "Bowlers",
     stateKey: "bowlers",
   },
+};
+
+export const filterPlayersByRole = (role) => {
+  const filteredPlayers = PlayersData.filter((player) => player.role === role);
+
+  return filteredPlayers;
+};
+
+export const getTeamsShortNameObject = () => {
+  const result = [];
+  let i = 0;
+  while (result.length !== 2) {
+    const teamShortName = PlayersData[i].team_short_name;
+    if (!result.includes(teamShortName)) {
+      result.push(teamShortName);
+    }
+    i += 1;
+  }
+  const returnObj = result.reduce((acc, value) => {
+    return { ...acc, [value]: 0 };
+  }, {});
+  return returnObj;
 };

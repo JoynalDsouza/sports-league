@@ -1,23 +1,32 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import { PlayersData } from "./constants/PlayersData";
-import { PlayerRoles } from "./constants/constants";
+import {
+  PlayerRoles,
+  getTeamsShortNameObject,
+  filterPlayersByRole,
+} from "./constants/constants";
 import PlayerTableByRole from "./components/PlayerTableByRole";
 
 function App() {
   const [selectedPlayers, setSelectedPlayers] = useState({
-    batsman: [],
+    batsmans: [],
     wicketKeepers: [],
     allRounders: [],
     bowlers: [],
+    squadLength: 0,
+    teamPlayersCount: getTeamsShortNameObject(),
   });
 
   const [credit, updateCredit] = useState(100);
 
+  const { batsman, wicketKeeper, allRounder, bowler } = PlayerRoles;
+
   // useEffect(() => {
-  //   // console.table(selectedPlayers);
-  //   console.log(credit);
-  // }, [credit]);
+  //   console.table(selectedPlayers);
+  //   // console.log(credit);
+  //   // console.log(selectedPlayers.squadLength);
+  // }, [, selectedPlayers, credit]);
 
   const handlePlayerClick = (player, role) => {
     const isPlayerInSelectedPlayers = selectedPlayers[role].includes(
@@ -29,25 +38,93 @@ function App() {
         (selectedPlayer) => selectedPlayer !== player.player_id
       );
       updateCredit((prevCredit) => prevCredit + player.event_player_credit);
-      setSelectedPlayers({ ...selectedPlayers, [role]: updateArray });
+      setSelectedPlayers((prevState) => ({
+        ...selectedPlayers,
+        squadLength: prevState.squadLength - 1,
+        teamPlayersCount: {
+          ...prevState.teamPlayersCount,
+          [player.team_short_name]:
+            prevState.teamPlayersCount[player.team_short_name] - 1,
+        },
+        [role]: updateArray,
+      }));
     } else {
+      if (selectedPlayers.squadLength >= 11) {
+        return alert("You can only select 11 players");
+      }
       updateCredit((prevCredit) => prevCredit - player.event_player_credit);
 
-      setSelectedPlayers({
+      setSelectedPlayers((prevState) => ({
         ...selectedPlayers,
+
+        squadLength: prevState.squadLength + 1,
+        teamPlayersCount: {
+          ...prevState.teamPlayersCount,
+          [player.team_short_name]:
+            prevState.teamPlayersCount[player.team_short_name] + 1,
+        },
         [role]: [...selectedPlayers[role], player.player_id],
-      });
+      }));
     }
   };
 
-  const filterPlayersByRole = (role) => {
-    const filteredPlayers = PlayersData.filter(
-      (player) => player.role === role
-    );
+  const handleProceed = () => {
+    const {
+      squadLength,
+      teamPlayersCount,
+      batsmans,
+      bowlers,
+      allRounders,
+      wicketKeepers,
+    } = selectedPlayers;
 
-    return filteredPlayers;
+    console.log(bowlers.length);
+    if (squadLength !== 11) {
+      return alert("Please select 11 players");
+    }
+    const teamsCountArray = Object.values(teamPlayersCount);
+    if (teamsCountArray[0] > 7 || teamsCountArray[1] > 7) {
+      return alert("You can only select max 7 players from a team");
+    }
+    if (credit < 0) {
+      return alert("Credit limit exceeded");
+    }
+    if (
+      batsmans.length < batsman.minPlayers ||
+      batsmans.length > batsman.maxPlayers
+    ) {
+      return alert(
+        `You can select batsman in range ${batsman.minPlayers} to ${batsman.maxPlayers}`
+      );
+    }
+    if (
+      wicketKeepers.length < wicketKeeper.minPlayers ||
+      wicketKeepers.length > wicketKeeper.maxPlayers
+    ) {
+      return alert(
+        `You can select wicket keepers in range ${wicketKeeper.minPlayers} to ${wicketKeeper.maxPlayers}`
+      );
+    }
+    if (
+      allRounders.length < allRounder.minPlayers ||
+      allRounders.length > allRounder.maxPlayers
+    ) {
+      return alert(
+        `You can select all rounders in range ${allRounder.minPlayers} to ${allRounder.maxPlayers}`
+      );
+    }
+    if (
+      bowlers.length < bowler.minPlayers ||
+      bowlers.length > bowler.maxPlayers
+    ) {
+      return alert(
+        `You can select bowler in range ${bowler.minPlayers} to ${bowler.maxPlayers}`
+      );
+    }
+
+    return alert("Hello World");
   };
-  const { batsman, wicketKeeper, allRounder, bowler } = PlayerRoles;
+
   return (
     <div className="App">
       <h1>Pick Players</h1>
@@ -58,7 +135,7 @@ function App() {
         maxPlayers={batsman.maxPlayers}
         players={filterPlayersByRole(batsman.value)}
         handlePlayerClick={handlePlayerClick}
-        selectedPlayers={selectedPlayers.batsman}
+        selectedPlayers={selectedPlayers.batsmans}
         stateKey={batsman.stateKey}
       />
       <PlayerTableByRole
@@ -95,6 +172,7 @@ function App() {
           border: "2px solid black",
           marginTop: "10px",
         }}
+        onClick={handleProceed}
       >
         <p>Proceed</p>
       </div>
