@@ -1,6 +1,5 @@
 import "./App.css";
-import { useEffect, useState } from "react";
-import { PlayersData } from "./constants/PlayersData";
+import { useState } from "react";
 import {
   PlayerRoles,
   getTeamsShortNameObject,
@@ -22,21 +21,17 @@ function App() {
 
   const { batsman, wicketKeeper, allRounder, bowler } = PlayerRoles;
 
-  // useEffect(() => {
-  //   console.table(selectedPlayers);
-  //   // console.log(credit);
-  //   // console.log(selectedPlayers.squadLength);
-  // }, [, selectedPlayers, credit]);
-
   const handlePlayerClick = (player, role) => {
+    //To check if player is already selected
     const isPlayerInSelectedPlayers = selectedPlayers[role].includes(
       player.player_id
     );
-
+    //if player is in selected array, then remove the player from the array
     if (isPlayerInSelectedPlayers) {
       const updateArray = selectedPlayers[role].filter(
         (selectedPlayer) => selectedPlayer !== player.player_id
       );
+      //add credits back
       updateCredit((prevCredit) => prevCredit + player.event_player_credit);
       setSelectedPlayers((prevState) => ({
         ...selectedPlayers,
@@ -49,6 +44,8 @@ function App() {
         [role]: updateArray,
       }));
     } else {
+      //if player is not in selected players then add to the array
+      //check players are more than 11
       if (selectedPlayers.squadLength >= 11) {
         return alert("You can only select 11 players");
       }
@@ -127,7 +124,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Pick Players</h1>
+      <h1 style={{ textAlign: "center" }}>Pick Players</h1>
 
       <PlayerTableByRole
         role={batsman.name}
@@ -166,14 +163,7 @@ function App() {
         stateKey={bowler.stateKey}
       />
 
-      <div
-        style={{
-          textAlign: "center",
-          border: "2px solid black",
-          marginTop: "10px",
-        }}
-        onClick={handleProceed}
-      >
+      <div className="proceedButton" onClick={handleProceed}>
         <p>Proceed</p>
       </div>
     </div>

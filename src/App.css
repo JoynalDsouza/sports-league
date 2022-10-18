@@ -1,0 +1,33 @@
+.App {
+  max-width: 480px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+.proceedButton {
+  text-align: center;
+  border: 2px solid black;
+  background-color: burlywood;
+}
+.proceedButton:hover {
+  background-color: red;
+}
+.tableContainer {
+  margin-bottom: 55px;
+}
+
+.playerNameCardContainer {
+  border: 1px solid black;
+}
+
+.playerNameCard {
+  padding: 0px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.playerName {
+  font-weight: 600;
+  font-size: 20px;
+}
