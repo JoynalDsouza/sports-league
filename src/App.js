@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   PlayerRoles,
   getTeamsShortNameObject,
@@ -22,6 +22,12 @@ function App() {
 
   const [credit, updateCredit] = useState(100);
 
+  //whenever currentPage state changes
+  //scroll to top
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
   //destructure constants data
   const { batsman, wicketKeeper, allRounder, bowler } = PlayerRoles;
 
@@ -40,11 +46,13 @@ function App() {
     const isPlayerInSelectedPlayers = selectedPlayers[role].includes(
       player.player_id
     );
+
     //if player is in selected array, then remove the player from the array
     if (isPlayerInSelectedPlayers) {
       const updateArray = selectedPlayers[role].filter(
         (selectedPlayer) => selectedPlayer !== player.player_id
       );
+
       //add credits back
       updateCredit((prevCredit) => prevCredit + player.event_player_credit);
       setSelectedPlayers((prevState) => ({
@@ -63,6 +71,7 @@ function App() {
       if (selectedPlayers.squadLength >= 11) {
         return alert("You can only select 11 players");
       }
+
       updateCredit((prevCredit) => prevCredit - player.event_player_credit);
 
       setSelectedPlayers((prevState) => ({
@@ -140,6 +149,7 @@ function App() {
   };
 
   if (currentPage == "main") {
+    //main page
     return (
       <div className="App">
         <h1 style={{ textAlign: "center" }}>Pick Players</h1>
@@ -187,6 +197,7 @@ function App() {
       </div>
     );
   } else {
+    //my Squad page
     return (
       <div className="App">
         <h1 style={{ textAlign: "center" }}>Your Squad</h1>
