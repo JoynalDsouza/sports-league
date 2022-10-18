@@ -2,17 +2,22 @@ import "../App.css";
 
 const PlayerTableByRole = ({
   role = "Batsman",
-  minPlayers = 3,
-  maxPlayers = 7,
+  minPlayers,
+  maxPlayers,
   players = [],
   stateKey,
-  handlePlayerClick,
+  handlePlayerClick = () => {},
   selectedPlayers,
 }) => {
   return (
     <>
       <div>
-        <h2>{`Pick ${minPlayers}-${maxPlayers} ${role}`}</h2>
+        {minPlayers ? (
+          <h2>{`Pick ${minPlayers}-${maxPlayers} ${role}`}</h2>
+        ) : (
+          <h2>{role}</h2>
+        )}
+
         <div className="tableContainer">
           {players.map((player) => {
             const { name, event_player_credit, team_name, player_id } = player;

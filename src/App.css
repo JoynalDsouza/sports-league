@@ -4,12 +4,12 @@
   padding-bottom: 20px;
 }
 
-.proceedButton {
+.button {
   text-align: center;
   border: 2px solid black;
   background-color: burlywood;
 }
-.proceedButton:hover {
+.button:hover {
   background-color: red;
 }
 .tableContainer {

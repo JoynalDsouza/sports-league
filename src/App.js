@@ -4,10 +4,13 @@ import {
   PlayerRoles,
   getTeamsShortNameObject,
   filterPlayersByRole,
+  getPlayerListByIds,
 } from "./constants/constants";
 import PlayerTableByRole from "./components/PlayerTableByRole";
 
 function App() {
+  const [currentPage, setCurrentPage] = useState("main");
+
   const [selectedPlayers, setSelectedPlayers] = useState({
     batsmans: [],
     wicketKeepers: [],
@@ -19,7 +22,18 @@ function App() {
 
   const [credit, updateCredit] = useState(100);
 
+  //destructure constants data
   const { batsman, wicketKeeper, allRounder, bowler } = PlayerRoles;
+
+  //destructure state selectedPlayersData
+  const {
+    squadLength,
+    teamPlayersCount,
+    batsmans,
+    bowlers,
+    allRounders,
+    wicketKeepers,
+  } = selectedPlayers;
 
   const handlePlayerClick = (player, role) => {
     //To check if player is already selected
@@ -66,15 +80,6 @@ function App() {
   };
 
   const handleProceed = () => {
-    const {
-      squadLength,
-      teamPlayersCount,
-      batsmans,
-      bowlers,
-      allRounders,
-      wicketKeepers,
-    } = selectedPlayers;
-
     if (squadLength !== 11) {
       return alert("Please select 11 players");
     }
@@ -118,55 +123,96 @@ function App() {
       );
     }
 
-    return alert("Hello World");
+    //if all cases are valid then move to squad page
+    return setCurrentPage("secondary");
   };
 
-  return (
-    <div className="App">
-      <h1 style={{ textAlign: "center" }}>Pick Players</h1>
+  const handleBack = () => {
+    setCurrentPage("main");
+    setSelectedPlayers({
+      batsmans: [],
+      wicketKeepers: [],
+      allRounders: [],
+      bowlers: [],
+      squadLength: 0,
+      teamPlayersCount: getTeamsShortNameObject(),
+    });
+  };
 
-      <PlayerTableByRole
-        role={batsman.name}
-        minPlayers={batsman.minPlayers}
-        maxPlayers={batsman.maxPlayers}
-        players={filterPlayersByRole(batsman.value)}
-        handlePlayerClick={handlePlayerClick}
-        selectedPlayers={selectedPlayers.batsmans}
-        stateKey={batsman.stateKey}
-      />
-      <PlayerTableByRole
-        role={wicketKeeper.name}
-        minPlayers={wicketKeeper.minPlayers}
-        maxPlayers={wicketKeeper.maxPlayers}
-        players={filterPlayersByRole(wicketKeeper.value)}
-        handlePlayerClick={handlePlayerClick}
-        selectedPlayers={selectedPlayers.wicketKeepers}
-        stateKey={wicketKeeper.stateKey}
-      />
-      <PlayerTableByRole
-        role={allRounder.name}
-        minPlayers={allRounder.minPlayers}
-        maxPlayers={allRounder.maxPlayers}
-        players={filterPlayersByRole(allRounder.value)}
-        handlePlayerClick={handlePlayerClick}
-        selectedPlayers={selectedPlayers.allRounders}
-        stateKey={allRounder.stateKey}
-      />
-      <PlayerTableByRole
-        role={bowler.name}
-        minPlayers={bowler.minPlayers}
-        maxPlayers={bowler.maxPlayers}
-        players={filterPlayersByRole(bowler.value)}
-        handlePlayerClick={handlePlayerClick}
-        selectedPlayers={selectedPlayers.bowlers}
-        stateKey={bowler.stateKey}
-      />
+  if (currentPage == "main") {
+    return (
+      <div className="App">
+        <h1 style={{ textAlign: "center" }}>Pick Players</h1>
 
-      <div className="proceedButton" onClick={handleProceed}>
-        <p>Proceed</p>
+        <PlayerTableByRole
+          role={batsman.name}
+          minPlayers={batsman.minPlayers}
+          maxPlayers={batsman.maxPlayers}
+          players={filterPlayersByRole(batsman.value)}
+          handlePlayerClick={handlePlayerClick}
+          selectedPlayers={selectedPlayers.batsmans}
+          stateKey={batsman.stateKey}
+        />
+        <PlayerTableByRole
+          role={wicketKeeper.name}
+          minPlayers={wicketKeeper.minPlayers}
+          maxPlayers={wicketKeeper.maxPlayers}
+          players={filterPlayersByRole(wicketKeeper.value)}
+          handlePlayerClick={handlePlayerClick}
+          selectedPlayers={selectedPlayers.wicketKeepers}
+          stateKey={wicketKeeper.stateKey}
+        />
+        <PlayerTableByRole
+          role={allRounder.name}
+          minPlayers={allRounder.minPlayers}
+          maxPlayers={allRounder.maxPlayers}
+          players={filterPlayersByRole(allRounder.value)}
+          handlePlayerClick={handlePlayerClick}
+          selectedPlayers={selectedPlayers.allRounders}
+          stateKey={allRounder.stateKey}
+        />
+        <PlayerTableByRole
+          role={bowler.name}
+          minPlayers={bowler.minPlayers}
+          maxPlayers={bowler.maxPlayers}
+          players={filterPlayersByRole(bowler.value)}
+          handlePlayerClick={handlePlayerClick}
+          selectedPlayers={selectedPlayers.bowlers}
+          stateKey={bowler.stateKey}
+        />
+
+        <div className="button" onClick={handleProceed}>
+          <p>Proceed</p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className="App">
+        <h1 style={{ textAlign: "center" }}>Your Squad</h1>
+        <PlayerTableByRole
+          role={batsman.name}
+          players={getPlayerListByIds(batsmans)}
+        />
+        <PlayerTableByRole
+          role={wicketKeeper.name}
+          players={getPlayerListByIds(wicketKeepers)}
+        />
+        <PlayerTableByRole
+          role={allRounder.name}
+          players={getPlayerListByIds(allRounders)}
+        />
+        <PlayerTableByRole
+          role={bowler.name}
+          players={getPlayerListByIds(bowlers)}
+        />
+
+        <div className="button" onClick={handleBack}>
+          <p>Go Back</p>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;

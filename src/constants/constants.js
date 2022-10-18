@@ -53,3 +53,13 @@ export const getTeamsShortNameObject = () => {
   }, {});
   return returnObj;
 };
+
+export const getPlayerListByIds = (idArray) => {
+  const result = [];
+  for (let i = 0; i < idArray.length; i++) {
+    const data = PlayersData.find((player) => player.player_id === idArray[i]);
+    result.push(data);
+  }
+
+  return result;
+};
