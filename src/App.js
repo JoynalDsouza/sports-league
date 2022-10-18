@@ -75,7 +75,6 @@ function App() {
       wicketKeepers,
     } = selectedPlayers;
 
-    console.log(bowlers.length);
     if (squadLength !== 11) {
       return alert("Please select 11 players");
     }
