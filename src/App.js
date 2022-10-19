@@ -12,10 +12,10 @@ function App() {
   const [currentPage, setCurrentPage] = useState("main");
 
   const [selectedPlayers, setSelectedPlayers] = useState({
-    batsmans: [],
-    wicketKeepers: [],
-    allRounders: [],
-    bowlers: [],
+    selectedBatsman: [],
+    selectedWicketKeepers: [],
+    selectedAllRounders: [],
+    selectedBowlers: [],
     squadLength: 0,
     teamPlayersCount: getTeamsShortNameObject(),
   });
@@ -35,10 +35,10 @@ function App() {
   const {
     squadLength,
     teamPlayersCount,
-    batsmans,
-    bowlers,
-    allRounders,
-    wicketKeepers,
+    selectedBatsman,
+    selectedBowlers,
+    selectedAllRounders,
+    selectedWicketKeepers,
   } = selectedPlayers;
 
   const handlePlayerClick = (player, role) => {
@@ -100,32 +100,32 @@ function App() {
       return alert("Credit limit exceeded");
     }
     if (
-      batsmans.length < batsman.minPlayers ||
-      batsmans.length > batsman.maxPlayers
+      selectedBatsman.length < batsman.minPlayers ||
+      selectedBatsman.length > batsman.maxPlayers
     ) {
       return alert(
         `You can select batsman in range ${batsman.minPlayers} to ${batsman.maxPlayers}`
       );
     }
     if (
-      wicketKeepers.length < wicketKeeper.minPlayers ||
-      wicketKeepers.length > wicketKeeper.maxPlayers
+      selectedWicketKeepers.length < wicketKeeper.minPlayers ||
+      selectedWicketKeepers.length > wicketKeeper.maxPlayers
     ) {
       return alert(
         `You can select wicket keepers in range ${wicketKeeper.minPlayers} to ${wicketKeeper.maxPlayers}`
       );
     }
     if (
-      allRounders.length < allRounder.minPlayers ||
-      allRounders.length > allRounder.maxPlayers
+      selectedAllRounders.length < allRounder.minPlayers ||
+      selectedAllRounders.length > allRounder.maxPlayers
     ) {
       return alert(
         `You can select all rounders in range ${allRounder.minPlayers} to ${allRounder.maxPlayers}`
       );
     }
     if (
-      bowlers.length < bowler.minPlayers ||
-      bowlers.length > bowler.maxPlayers
+      selectedBowlers.length < bowler.minPlayers ||
+      selectedBowlers.length > bowler.maxPlayers
     ) {
       return alert(
         `You can select bowler in range ${bowler.minPlayers} to ${bowler.maxPlayers}`
@@ -139,10 +139,10 @@ function App() {
   const handleBack = () => {
     setCurrentPage("main");
     setSelectedPlayers({
-      batsmans: [],
-      wicketKeepers: [],
-      allRounders: [],
-      bowlers: [],
+      selectedBatsman: [],
+      selectedWicketKeepers: [],
+      selectedAllRounders: [],
+      selectedBowlers: [],
       squadLength: 0,
       teamPlayersCount: getTeamsShortNameObject(),
     });
@@ -170,7 +170,7 @@ function App() {
           maxPlayers={batsman.maxPlayers}
           players={filterPlayersByRole(batsman.value)}
           handlePlayerClick={handlePlayerClick}
-          selectedPlayers={selectedPlayers.batsmans}
+          selectedPlayers={selectedBatsman}
           stateKey={batsman.stateKey}
         />
         <PlayerTableByRole
@@ -179,7 +179,7 @@ function App() {
           maxPlayers={wicketKeeper.maxPlayers}
           players={filterPlayersByRole(wicketKeeper.value)}
           handlePlayerClick={handlePlayerClick}
-          selectedPlayers={selectedPlayers.wicketKeepers}
+          selectedPlayers={selectedWicketKeepers}
           stateKey={wicketKeeper.stateKey}
         />
         <PlayerTableByRole
@@ -188,7 +188,7 @@ function App() {
           maxPlayers={allRounder.maxPlayers}
           players={filterPlayersByRole(allRounder.value)}
           handlePlayerClick={handlePlayerClick}
-          selectedPlayers={selectedPlayers.allRounders}
+          selectedPlayers={selectedAllRounders}
           stateKey={allRounder.stateKey}
         />
         <PlayerTableByRole
@@ -197,7 +197,7 @@ function App() {
           maxPlayers={bowler.maxPlayers}
           players={filterPlayersByRole(bowler.value)}
           handlePlayerClick={handlePlayerClick}
-          selectedPlayers={selectedPlayers.bowlers}
+          selectedPlayers={selectedBowlers}
           stateKey={bowler.stateKey}
         />
 
@@ -213,19 +213,19 @@ function App() {
         <h1 style={{ textAlign: "center" }}>Your Squad</h1>
         <PlayerTableByRole
           role={batsman.name}
-          players={getPlayerListByIds(batsmans)}
+          players={getPlayerListByIds(selectedBatsman)}
         />
         <PlayerTableByRole
           role={wicketKeeper.name}
-          players={getPlayerListByIds(wicketKeepers)}
+          players={getPlayerListByIds(selectedWicketKeepers)}
         />
         <PlayerTableByRole
           role={allRounder.name}
-          players={getPlayerListByIds(allRounders)}
+          players={getPlayerListByIds(selectedAllRounders)}
         />
         <PlayerTableByRole
           role={bowler.name}
-          players={getPlayerListByIds(bowlers)}
+          players={getPlayerListByIds(selectedBowlers)}
         />
 
         <div className="button" onClick={handleBack}>

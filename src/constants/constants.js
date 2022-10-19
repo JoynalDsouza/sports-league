@@ -6,21 +6,21 @@ export const PlayerRoles = {
     minPlayers: 3,
     maxPlayers: 7,
     name: "Batsman",
-    stateKey: "batsmans",
+    stateKey: "selectedBatsman",
   },
   wicketKeeper: {
     value: "Wicket-Keeper",
     minPlayers: 1,
     maxPlayers: 5,
     name: "Wicket Keepers",
-    stateKey: "wicketKeepers",
+    stateKey: "selectedWicketKeepers",
   },
   allRounder: {
     value: "All-Rounder",
     minPlayers: 0,
     maxPlayers: 4,
     name: "All Rounders",
-    stateKey: "allRounders",
+    stateKey: "selectedAllRounders",
   },
 
   bowler: {
@@ -28,7 +28,7 @@ export const PlayerRoles = {
     minPlayers: 3,
     maxPlayers: 7,
     name: "Bowlers",
-    stateKey: "bowlers",
+    stateKey: "selectedBowlers",
   },
 };
 
