@@ -149,7 +149,7 @@ function App() {
     updateCredit(100);
   };
 
-  if (currentPage == "main") {
+  if (currentPage === "main") {
     //main page
     return (
       <div className="App">
