@@ -153,56 +153,58 @@ function App() {
     //main page
     return (
       <div className="App">
-        <h1 style={{ textAlign: "center" }}>Pick Players</h1>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <p>{`Squad Length : ${squadLength} / 11`}</p>
-          <p>{`Credits remaining : ${credit}`}</p>
-        </div>
+        <div className="container">
+          <h1 style={{ textAlign: "center" }}>Pick Players</h1>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <p>{`Squad Length : ${squadLength} / 11`}</p>
+            <p>{`Credits remaining : ${credit}`}</p>
+          </div>
 
-        <PlayerTableByRole
-          role={batsman.name}
-          minPlayers={batsman.minPlayers}
-          maxPlayers={batsman.maxPlayers}
-          players={filterPlayersByRole(batsman.value)}
-          handlePlayerClick={handlePlayerClick}
-          selectedPlayers={selectedBatsman}
-          stateKey={batsman.stateKey}
-        />
-        <PlayerTableByRole
-          role={wicketKeeper.name}
-          minPlayers={wicketKeeper.minPlayers}
-          maxPlayers={wicketKeeper.maxPlayers}
-          players={filterPlayersByRole(wicketKeeper.value)}
-          handlePlayerClick={handlePlayerClick}
-          selectedPlayers={selectedWicketKeepers}
-          stateKey={wicketKeeper.stateKey}
-        />
-        <PlayerTableByRole
-          role={allRounder.name}
-          minPlayers={allRounder.minPlayers}
-          maxPlayers={allRounder.maxPlayers}
-          players={filterPlayersByRole(allRounder.value)}
-          handlePlayerClick={handlePlayerClick}
-          selectedPlayers={selectedAllRounders}
-          stateKey={allRounder.stateKey}
-        />
-        <PlayerTableByRole
-          role={bowler.name}
-          minPlayers={bowler.minPlayers}
-          maxPlayers={bowler.maxPlayers}
-          players={filterPlayersByRole(bowler.value)}
-          handlePlayerClick={handlePlayerClick}
-          selectedPlayers={selectedBowlers}
-          stateKey={bowler.stateKey}
-        />
+          <PlayerTableByRole
+            role={batsman.name}
+            minPlayers={batsman.minPlayers}
+            maxPlayers={batsman.maxPlayers}
+            players={filterPlayersByRole(batsman.value)}
+            handlePlayerClick={handlePlayerClick}
+            selectedPlayers={selectedBatsman}
+            stateKey={batsman.stateKey}
+          />
+          <PlayerTableByRole
+            role={wicketKeeper.name}
+            minPlayers={wicketKeeper.minPlayers}
+            maxPlayers={wicketKeeper.maxPlayers}
+            players={filterPlayersByRole(wicketKeeper.value)}
+            handlePlayerClick={handlePlayerClick}
+            selectedPlayers={selectedWicketKeepers}
+            stateKey={wicketKeeper.stateKey}
+          />
+          <PlayerTableByRole
+            role={allRounder.name}
+            minPlayers={allRounder.minPlayers}
+            maxPlayers={allRounder.maxPlayers}
+            players={filterPlayersByRole(allRounder.value)}
+            handlePlayerClick={handlePlayerClick}
+            selectedPlayers={selectedAllRounders}
+            stateKey={allRounder.stateKey}
+          />
+          <PlayerTableByRole
+            role={bowler.name}
+            minPlayers={bowler.minPlayers}
+            maxPlayers={bowler.maxPlayers}
+            players={filterPlayersByRole(bowler.value)}
+            handlePlayerClick={handlePlayerClick}
+            selectedPlayers={selectedBowlers}
+            stateKey={bowler.stateKey}
+          />
 
-        <div className="button" onClick={handleProceed}>
-          <p>Proceed</p>
+          <div className="button" onClick={handleProceed}>
+            <p>Proceed</p>
+          </div>
         </div>
       </div>
     );
@@ -210,26 +212,28 @@ function App() {
     //my Squad page
     return (
       <div className="App">
-        <h1 style={{ textAlign: "center" }}>Your Squad</h1>
-        <PlayerTableByRole
-          role={batsman.name}
-          players={getPlayerListByIds(selectedBatsman)}
-        />
-        <PlayerTableByRole
-          role={wicketKeeper.name}
-          players={getPlayerListByIds(selectedWicketKeepers)}
-        />
-        <PlayerTableByRole
-          role={allRounder.name}
-          players={getPlayerListByIds(selectedAllRounders)}
-        />
-        <PlayerTableByRole
-          role={bowler.name}
-          players={getPlayerListByIds(selectedBowlers)}
-        />
+        <div className="container">
+          <h1 style={{ textAlign: "center" }}>Your Squad</h1>
+          <PlayerTableByRole
+            role={batsman.name}
+            players={getPlayerListByIds(selectedBatsman)}
+          />
+          <PlayerTableByRole
+            role={wicketKeeper.name}
+            players={getPlayerListByIds(selectedWicketKeepers)}
+          />
+          <PlayerTableByRole
+            role={allRounder.name}
+            players={getPlayerListByIds(selectedAllRounders)}
+          />
+          <PlayerTableByRole
+            role={bowler.name}
+            players={getPlayerListByIds(selectedBowlers)}
+          />
 
-        <div className="button" onClick={handleBack}>
-          <p>Go Back</p>
+          <div className="button" onClick={handleBack}>
+            <p>Go Back</p>
+          </div>
         </div>
       </div>
     );
