@@ -146,6 +146,7 @@ function App() {
       squadLength: 0,
       teamPlayersCount: getTeamsShortNameObject(),
     });
+    updateCredit(100);
   };
 
   if (currentPage == "main") {
@@ -153,6 +154,15 @@ function App() {
     return (
       <div className="App">
         <h1 style={{ textAlign: "center" }}>Pick Players</h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <p>{`Squad Length : ${squadLength} / 11`}</p>
+          <p>{`Credits remaining : ${credit}`}</p>
+        </div>
 
         <PlayerTableByRole
           role={batsman.name}

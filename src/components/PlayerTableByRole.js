@@ -12,8 +12,11 @@ const PlayerTableByRole = ({
   return (
     <>
       <div>
-        {minPlayers ? (
-          <h2>{`Pick ${minPlayers}-${maxPlayers} ${role}`}</h2>
+        {minPlayers !== undefined ? (
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <h2>{`Pick ${minPlayers}-${maxPlayers} ${role}`}</h2>
+            <p>{`${selectedPlayers.length} / ${players.length}`}</p>
+          </div>
         ) : (
           <h2>{role}</h2>
         )}
