@@ -9,6 +9,7 @@ const PlayerTableByRole = ({
   handlePlayerClick = () => {},
   selectedPlayers,
   teamPlayersCount = {},
+  squadLength,
 }) => {
   const checkIfTeamPlayersExceed = (player_team_short_name) => {
     if (teamPlayersCount[player_team_short_name] >= 7) {
@@ -21,7 +22,13 @@ const PlayerTableByRole = ({
     <div className="playerByRoleContainer">
       <div>
         {minPlayers !== undefined ? (
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <h2>{`Pick ${minPlayers}-${maxPlayers} ${role}`}</h2>
             <p>{`${selectedPlayers.length} / ${players.length}`}</p>
           </div>
@@ -48,7 +55,8 @@ const PlayerTableByRole = ({
                     ? "#9ef542"
                     : null,
                   opacity:
-                    checkIfTeamPlayersExceed(team_short_name) &&
+                    (checkIfTeamPlayersExceed(team_short_name) ||
+                      squadLength >= 11) &&
                     !selectedPlayers?.includes(player_id)
                       ? 0.5
                       : 1,

@@ -208,6 +208,7 @@ function App() {
               selectedPlayers={selectedBatsman}
               stateKey={batsman.stateKey}
               teamPlayersCount={teamPlayersCount}
+              squadLength={squadLength}
             />
             <PlayerTableByRole
               role={wicketKeeper.name}
@@ -218,6 +219,7 @@ function App() {
               selectedPlayers={selectedWicketKeepers}
               teamPlayersCount={teamPlayersCount}
               stateKey={wicketKeeper.stateKey}
+              squadLength={squadLength}
             />
             <PlayerTableByRole
               role={allRounder.name}
@@ -228,6 +230,7 @@ function App() {
               selectedPlayers={selectedAllRounders}
               stateKey={allRounder.stateKey}
               teamPlayersCount={teamPlayersCount}
+              squadLength={squadLength}
             />
             <PlayerTableByRole
               role={bowler.name}
@@ -238,6 +241,7 @@ function App() {
               selectedPlayers={selectedBowlers}
               stateKey={bowler.stateKey}
               teamPlayersCount={teamPlayersCount}
+              squadLength={squadLength}
             />
           </div>
 
