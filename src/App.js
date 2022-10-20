@@ -37,7 +37,7 @@ function App() {
     } else {
       setValidated(false);
     }
-  }, [selectedPlayers]);
+  }, [selectedPlayers, validateSquad]);
 
   //destructure constants data
   const { batsman, wicketKeeper, allRounder, bowler } = PlayerRoles;
