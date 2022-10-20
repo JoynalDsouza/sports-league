@@ -8,9 +8,17 @@ const PlayerTableByRole = ({
   stateKey,
   handlePlayerClick = () => {},
   selectedPlayers,
+  teamPlayersCount = {},
 }) => {
+  const checkIfTeamPlayersExceed = (player_team_short_name) => {
+    if (teamPlayersCount[player_team_short_name] >= 7) {
+      return true;
+    }
+    return false;
+  };
+
   return (
-    <>
+    <div className="playerByRoleContainer">
       <div>
         {minPlayers !== undefined ? (
           <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -23,7 +31,13 @@ const PlayerTableByRole = ({
 
         <div className="tableContainer">
           {players.map((player) => {
-            const { name, event_player_credit, team_name, player_id } = player;
+            const {
+              name,
+              event_player_credit,
+              team_name,
+              player_id,
+              team_short_name,
+            } = player;
 
             return (
               <div
@@ -33,6 +47,11 @@ const PlayerTableByRole = ({
                   backgroundColor: selectedPlayers?.includes(player_id)
                     ? "#9ef542"
                     : null,
+                  opacity:
+                    checkIfTeamPlayersExceed(team_short_name) &&
+                    !selectedPlayers?.includes(player_id)
+                      ? 0.5
+                      : 1,
                 }}
                 onClick={() => handlePlayerClick(player, stateKey)}
               >
@@ -48,7 +67,7 @@ const PlayerTableByRole = ({
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

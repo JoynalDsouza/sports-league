@@ -32,17 +32,17 @@ export const PlayerRoles = {
   },
 };
 
-export const filterPlayersByRole = (role) => {
-  const filteredPlayers = PlayersData.filter((player) => player.role === role);
+export const filterPlayersByRole = (role, playersData = PlayersData) => {
+  const filteredPlayers = playersData.filter((player) => player.role === role);
 
   return filteredPlayers;
 };
 
-export const getTeamsShortNameObject = () => {
+export const getTeamsShortNameObject = (playersData = PlayersData) => {
   const result = [];
   let i = 0;
   while (result.length !== 2) {
-    const teamShortName = PlayersData[i].team_short_name;
+    const teamShortName = playersData[i].team_short_name;
     if (!result.includes(teamShortName)) {
       result.push(teamShortName);
     }
@@ -54,10 +54,10 @@ export const getTeamsShortNameObject = () => {
   return returnObj;
 };
 
-export const getPlayerListByIds = (idArray) => {
+export const getPlayerListByIds = (idArray, playersData = PlayersData) => {
   const result = [];
   for (let i = 0; i < idArray.length; i++) {
-    const data = PlayersData.find((player) => player.player_id === idArray[i]);
+    const data = playersData.find((player) => player.player_id === idArray[i]);
     result.push(data);
   }
 

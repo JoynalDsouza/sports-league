@@ -10,6 +10,7 @@ import PlayerTableByRole from "./components/PlayerTableByRole";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("main");
+  const [validated, setValidated] = useState(false);
 
   const [selectedPlayers, setSelectedPlayers] = useState({
     selectedBatsman: [],
@@ -27,6 +28,16 @@ function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
+
+  //run validateSquad whenever selected players state changes
+  useEffect(() => {
+    const value = validateSquad();
+    if (value) {
+      setValidated(true);
+    } else {
+      setValidated(false);
+    }
+  }, [selectedPlayers]);
 
   //destructure constants data
   const { batsman, wicketKeeper, allRounder, bowler } = PlayerRoles;
@@ -71,6 +82,9 @@ function App() {
       if (selectedPlayers.squadLength >= 11) {
         return alert("You can only select 11 players");
       }
+      if (teamPlayersCount[player.team_short_name] >= 7) {
+        return;
+      }
 
       updateCredit((prevCredit) => prevCredit - player.event_player_credit);
 
@@ -89,20 +103,35 @@ function App() {
   };
 
   const handleProceed = () => {
+    //if all cases are valid then move to squad page
+    if (validated) {
+      return setCurrentPage("secondary");
+    }
+  };
+
+  const validateSquad = () => {
     if (squadLength !== 11) {
-      return alert("Please select 11 players");
+      return false;
+      // return alert("Please select 11 players");
     }
     const teamsCountArray = Object.values(teamPlayersCount);
+
     if (teamsCountArray[0] > 7 || teamsCountArray[1] > 7) {
+      return false;
+
       return alert("You can only select max 7 players from a team");
     }
     if (credit < 0) {
+      return false;
+
       return alert("Credit limit exceeded");
     }
     if (
       selectedBatsman.length < batsman.minPlayers ||
       selectedBatsman.length > batsman.maxPlayers
     ) {
+      return false;
+
       return alert(
         `You can select batsman in range ${batsman.minPlayers} to ${batsman.maxPlayers}`
       );
@@ -111,6 +140,8 @@ function App() {
       selectedWicketKeepers.length < wicketKeeper.minPlayers ||
       selectedWicketKeepers.length > wicketKeeper.maxPlayers
     ) {
+      return false;
+
       return alert(
         `You can select wicket keepers in range ${wicketKeeper.minPlayers} to ${wicketKeeper.maxPlayers}`
       );
@@ -119,6 +150,8 @@ function App() {
       selectedAllRounders.length < allRounder.minPlayers ||
       selectedAllRounders.length > allRounder.maxPlayers
     ) {
+      return false;
+
       return alert(
         `You can select all rounders in range ${allRounder.minPlayers} to ${allRounder.maxPlayers}`
       );
@@ -127,13 +160,14 @@ function App() {
       selectedBowlers.length < bowler.minPlayers ||
       selectedBowlers.length > bowler.maxPlayers
     ) {
+      return false;
+
       return alert(
         `You can select bowler in range ${bowler.minPlayers} to ${bowler.maxPlayers}`
       );
     }
 
-    //if all cases are valid then move to squad page
-    return setCurrentPage("secondary");
+    return true;
   };
 
   const handleBack = () => {
@@ -164,45 +198,54 @@ function App() {
             <p>{`Squad Length : ${squadLength} / 11`}</p>
             <p>{`Credits remaining : ${credit}`}</p>
           </div>
+          <div className="playerColumn">
+            <PlayerTableByRole
+              role={batsman.name}
+              minPlayers={batsman.minPlayers}
+              maxPlayers={batsman.maxPlayers}
+              players={filterPlayersByRole(batsman.value)}
+              handlePlayerClick={handlePlayerClick}
+              selectedPlayers={selectedBatsman}
+              stateKey={batsman.stateKey}
+              teamPlayersCount={teamPlayersCount}
+            />
+            <PlayerTableByRole
+              role={wicketKeeper.name}
+              minPlayers={wicketKeeper.minPlayers}
+              maxPlayers={wicketKeeper.maxPlayers}
+              players={filterPlayersByRole(wicketKeeper.value)}
+              handlePlayerClick={handlePlayerClick}
+              selectedPlayers={selectedWicketKeepers}
+              teamPlayersCount={teamPlayersCount}
+              stateKey={wicketKeeper.stateKey}
+            />
+            <PlayerTableByRole
+              role={allRounder.name}
+              minPlayers={allRounder.minPlayers}
+              maxPlayers={allRounder.maxPlayers}
+              players={filterPlayersByRole(allRounder.value)}
+              handlePlayerClick={handlePlayerClick}
+              selectedPlayers={selectedAllRounders}
+              stateKey={allRounder.stateKey}
+              teamPlayersCount={teamPlayersCount}
+            />
+            <PlayerTableByRole
+              role={bowler.name}
+              minPlayers={bowler.minPlayers}
+              maxPlayers={bowler.maxPlayers}
+              players={filterPlayersByRole(bowler.value)}
+              handlePlayerClick={handlePlayerClick}
+              selectedPlayers={selectedBowlers}
+              stateKey={bowler.stateKey}
+              teamPlayersCount={teamPlayersCount}
+            />
+          </div>
 
-          <PlayerTableByRole
-            role={batsman.name}
-            minPlayers={batsman.minPlayers}
-            maxPlayers={batsman.maxPlayers}
-            players={filterPlayersByRole(batsman.value)}
-            handlePlayerClick={handlePlayerClick}
-            selectedPlayers={selectedBatsman}
-            stateKey={batsman.stateKey}
-          />
-          <PlayerTableByRole
-            role={wicketKeeper.name}
-            minPlayers={wicketKeeper.minPlayers}
-            maxPlayers={wicketKeeper.maxPlayers}
-            players={filterPlayersByRole(wicketKeeper.value)}
-            handlePlayerClick={handlePlayerClick}
-            selectedPlayers={selectedWicketKeepers}
-            stateKey={wicketKeeper.stateKey}
-          />
-          <PlayerTableByRole
-            role={allRounder.name}
-            minPlayers={allRounder.minPlayers}
-            maxPlayers={allRounder.maxPlayers}
-            players={filterPlayersByRole(allRounder.value)}
-            handlePlayerClick={handlePlayerClick}
-            selectedPlayers={selectedAllRounders}
-            stateKey={allRounder.stateKey}
-          />
-          <PlayerTableByRole
-            role={bowler.name}
-            minPlayers={bowler.minPlayers}
-            maxPlayers={bowler.maxPlayers}
-            players={filterPlayersByRole(bowler.value)}
-            handlePlayerClick={handlePlayerClick}
-            selectedPlayers={selectedBowlers}
-            stateKey={bowler.stateKey}
-          />
-
-          <div className="button" onClick={handleProceed}>
+          <div
+            className="button"
+            onClick={handleProceed}
+            style={{ opacity: validated ? 1 : 0.5 }}
+          >
             <p>Proceed</p>
           </div>
         </div>
@@ -214,22 +257,24 @@ function App() {
       <div className="App">
         <div className="container">
           <h1 style={{ textAlign: "center" }}>Your Squad</h1>
-          <PlayerTableByRole
-            role={batsman.name}
-            players={getPlayerListByIds(selectedBatsman)}
-          />
-          <PlayerTableByRole
-            role={wicketKeeper.name}
-            players={getPlayerListByIds(selectedWicketKeepers)}
-          />
-          <PlayerTableByRole
-            role={allRounder.name}
-            players={getPlayerListByIds(selectedAllRounders)}
-          />
-          <PlayerTableByRole
-            role={bowler.name}
-            players={getPlayerListByIds(selectedBowlers)}
-          />
+          <div className="playerColumn">
+            <PlayerTableByRole
+              role={batsman.name}
+              players={getPlayerListByIds(selectedBatsman)}
+            />
+            <PlayerTableByRole
+              role={wicketKeeper.name}
+              players={getPlayerListByIds(selectedWicketKeepers)}
+            />
+            <PlayerTableByRole
+              role={allRounder.name}
+              players={getPlayerListByIds(selectedAllRounders)}
+            />
+            <PlayerTableByRole
+              role={bowler.name}
+              players={getPlayerListByIds(selectedBowlers)}
+            />
+          </div>
 
           <div className="button" onClick={handleBack}>
             <p>Go Back</p>
