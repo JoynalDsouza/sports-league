@@ -21,8 +21,6 @@ function App() {
     teamPlayersCount: getTeamsShortNameObject(),
   });
 
-  const [credit, updateCredit] = useState(100);
-
   //whenever currentPage state changes
   //scroll to top
   useEffect(() => {
@@ -64,8 +62,6 @@ function App() {
         (selectedPlayer) => selectedPlayer !== player.player_id
       );
 
-      //add credits back
-      updateCredit((prevCredit) => prevCredit + player.event_player_credit);
       setSelectedPlayers((prevState) => ({
         ...selectedPlayers,
         squadLength: prevState.squadLength - 1,
@@ -85,8 +81,6 @@ function App() {
       if (teamPlayersCount[player.team_short_name] >= 7) {
         return;
       }
-
-      updateCredit((prevCredit) => prevCredit - player.event_player_credit);
 
       setSelectedPlayers((prevState) => ({
         ...selectedPlayers,
@@ -121,11 +115,7 @@ function App() {
 
       return alert("You can only select max 7 players from a team");
     }
-    if (credit < 0) {
-      return false;
 
-      return alert("Credit limit exceeded");
-    }
     if (
       selectedBatsman.length < batsman.minPlayers ||
       selectedBatsman.length > batsman.maxPlayers
@@ -180,7 +170,6 @@ function App() {
       squadLength: 0,
       teamPlayersCount: getTeamsShortNameObject(),
     });
-    updateCredit(100);
   };
 
   if (currentPage === "main") {
@@ -196,7 +185,6 @@ function App() {
             }}
           >
             <p>{`Squad Length : ${squadLength} / 11`}</p>
-            <p>{`Credits remaining : ${credit}`}</p>
           </div>
           <div className="playerColumn">
             <PlayerTableByRole
