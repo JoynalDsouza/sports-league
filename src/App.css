@@ -1,0 +1,57 @@
+.App {
+  /* max-width: 480px; */
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+.container {
+  margin: 0 10px;
+}
+
+.button {
+  text-align: center;
+  border: 2px solid black;
+  background-color: burlywood;
+  max-width: 400px;
+  margin: 0 auto;
+}
+/* .button:hover {
+  background-color: red;
+} */
+.tableContainer {
+  margin-bottom: 55px;
+}
+
+.playerNameCardContainer {
+  border: 1px solid black;
+}
+
+.playerNameCard {
+  padding: 0px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.playerName {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.playerColumn {
+  display: flex;
+}
+
+.playerByRoleContainer {
+  flex: 1;
+  margin: 0px 10px;
+}
+
+@media screen and (max-width: 900px) {
+  .App {
+    max-width: 480px;
+  }
+  .playerColumn {
+    display: block;
+  }
+}
